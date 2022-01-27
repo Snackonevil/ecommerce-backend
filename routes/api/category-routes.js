@@ -14,7 +14,20 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.get("/:id", (req, res) => {
+router.get("/:id", async (req, res) => {
+    const reqId = req.params.id;
+
+    try {
+        const category = await Category.findAll({
+            where: {
+                id: reqId,
+            },
+        });
+        res.status(200).json(category);
+    } catch (err) {
+        console.log(err);
+    }
+
     // find one category by its `id` value
     // be sure to include its associated Products
 });
