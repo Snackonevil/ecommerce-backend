@@ -15,8 +15,22 @@ router.get("/", async (req, res) => {
     // be sure to include its associated Product data
 });
 
-router.get("/:id", (req, res) => {
+router.get("/:id", async (req, res) => {
     // find a single tag by its `id`
+    const reqId = req.params.id;
+    try {
+        const tag = await Tag.findAll({
+            where: {
+                id: reqId,
+            },
+        });
+        tag == ""
+            ? res.status(400).json({ error: `No tag with id ${reqId} found` })
+            : res.status(200).json(tag);
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).json({ msg: "Server error" });
+    }
     // be sure to include its associated Product data
 });
 
