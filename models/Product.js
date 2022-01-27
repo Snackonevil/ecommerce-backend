@@ -11,13 +11,13 @@ class Product extends Model {}
 Product.init(
     {
         id: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true,
             autoIncrement: true,
         },
         product_name: {
-            type: DataTypes.DECIMAL,
+            type: DataTypes.STRING,
             allowNull: false,
             validate: {
                 isDecimal: true,
@@ -34,7 +34,7 @@ Product.init(
         category_id: {
             type: DataTypes.INTEGER,
             references: {
-                model: "Category",
+                model: "category",
                 key: "id",
             },
         },
