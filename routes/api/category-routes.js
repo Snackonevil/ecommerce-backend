@@ -6,8 +6,10 @@ const { Category, Product } = require("../../models");
 router.get("/", async (req, res) => {
     try {
         const categories = await Category.findAll();
+        // const categories = JSON.stringify(data);
         res.status(200).json(categories);
     } catch (err) {
+        res.status(404).json({ msg: "Bad request" });
         console.log(err);
     }
 });
