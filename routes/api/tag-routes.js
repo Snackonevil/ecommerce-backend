@@ -19,7 +19,7 @@ router.get("/:id", async (req, res) => {
     // find a single tag by its `id`
     const reqId = req.params.id;
     try {
-        const tag = await Tag.findAll({
+        const tag = await Tag.findOne({
             where: {
                 id: reqId,
             },

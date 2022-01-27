@@ -20,10 +20,11 @@ router.get("/:id", async (req, res) => {
     const reqId = req.params.id;
 
     try {
-        const product = await Product.findAll({
+        const product = await Product.findOne({
             where: {
                 id: reqId,
             },
+            include: Category,
         });
         product == ""
             ? res.status(400).json({ error: `No product with id ${reqId}` })

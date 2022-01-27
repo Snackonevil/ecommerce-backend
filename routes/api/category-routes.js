@@ -18,10 +18,11 @@ router.get("/:id", async (req, res) => {
     const reqId = req.params.id;
 
     try {
-        const category = await Category.findAll({
+        const category = await Category.findOne({
             where: {
                 id: reqId,
             },
+            include: Product,
         });
         category == ""
             ? res
