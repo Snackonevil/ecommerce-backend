@@ -25,9 +25,12 @@ router.get("/:id", async (req, res) => {
                 id: reqId,
             },
         });
-        res.status(200).json(product);
+        product == ""
+            ? res.status(400).json({ error: `No product with id ${reqId}` })
+            : res.status(200).json(product);
     } catch (err) {
-        res.status(400).json({ error: "bad request" });
+        console.log(err.message);
+        res.status(500).json({ error: "Server error" });
     }
     // find a single product by its `id`
     // be sure to include its associated Category and Tag data

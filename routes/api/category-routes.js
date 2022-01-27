@@ -9,8 +9,8 @@ router.get("/", async (req, res) => {
         // const categories = JSON.stringify(data);
         res.status(200).json(categories);
     } catch (err) {
-        res.status(404).json({ msg: "Bad request" });
-        console.log(err);
+        console.log(err.message);
+        res.status(404).json({ msg: "Server error" });
     }
 });
 
@@ -23,7 +23,11 @@ router.get("/:id", async (req, res) => {
                 id: reqId,
             },
         });
-        res.status(200).json(category);
+        category == ""
+            ? res
+                  .status(400)
+                  .json({ error: `No category with id ${reqId} found` })
+            : res.status(200).json(category);
     } catch (err) {
         console.log(err);
     }
