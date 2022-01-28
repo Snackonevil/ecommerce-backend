@@ -22,7 +22,7 @@ router.get("/:id", async (req, res) => {
             where: {
                 id: reqId,
             },
-            include: Product,
+            instance: Product,
         });
         category == ""
             ? res
