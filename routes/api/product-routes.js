@@ -26,7 +26,7 @@ router.get("/:id", async (req, res) => {
             where: {
                 id: reqId,
             },
-            include: Category,
+            include: [{ model: Category }, { model: Tag }],
         });
         product == ""
             ? res.status(400).json({ error: `No product with id ${reqId}` })
@@ -41,6 +41,12 @@ router.get("/:id", async (req, res) => {
 
 // create new product
 router.post("/", (req, res) => {
+    const reqBody = {
+        product_name: req.body.product_name,
+        price: req.body.price,
+        stock: req.body.stock,
+        tagIds: req.body.tagIds,
+    };
     /* req.body should look like this...
     {
       product_name: "Basketball",
@@ -49,7 +55,7 @@ router.post("/", (req, res) => {
       tagIds: [1, 2, 3, 4]
     }
   */
-    Product.create(req.body)
+    Product.create(reqBody)
         .then(product => {
             // if there's product tags, we need to create pairings to bulk create in the ProductTag model
             if (req.body.tagIds.length) {
@@ -114,6 +120,16 @@ router.put("/:id", (req, res) => {
 });
 
 router.delete("/:id", (req, res) => {
+    const productId = req.params.id;
+    try {
+        await Product.destroy({
+            where: {
+                id: productId,
+            },
+        });
+    } catch (err) {
+        res.status(500).json({ message: "Server error" });
+    }
     // delete one product by its `id` value
 });
 
