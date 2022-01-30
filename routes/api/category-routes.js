@@ -41,12 +41,11 @@ router.get("/:id", async (req, res) => {
 // create a new category
 router.post("/", async (req, res) => {
     const body = {
-        id: req.body.id,
         category_name: req.body.category_name,
     };
-    if (!req.body.id || !req.body.category_name) {
+    if (!req.body.category_name) {
         res.status(404).json({
-            message: "request body needs BOTH id and category_name",
+            message: "request body needs category_name",
         });
     } else {
         try {
@@ -62,12 +61,12 @@ router.post("/", async (req, res) => {
 router.put("/:id", async (req, res) => {
     const categoryId = req.params.id;
     try {
-        await Category.update({
+        await Category.update(req.body, {
             where: {
                 id: categoryId,
             },
         });
-        const updated = Category.findOne({
+        const updated = await Category.findOne({
             where: {
                 id: categoryId,
             },
@@ -87,10 +86,11 @@ router.delete("/:id", async (req, res) => {
                 id: categoryId,
             },
         });
-    } catch (err) {
-        res.status(500).json({
+        res.status(200).json({
             message: `Category with ID ${categoryId} deleted`,
         });
+    } catch (err) {
+        res.status(500).json({ message: "Server error" });
     }
 });
 
