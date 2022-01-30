@@ -40,7 +40,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // create new product
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
     const reqBody = {
         product_name: req.body.product_name,
         price: req.body.price,
@@ -78,7 +78,7 @@ router.post("/", (req, res) => {
 });
 
 // update product
-router.put("/:id", (req, res) => {
+router.put("/:id", async (req, res) => {
     // update product data
     Product.update(req.body, {
         where: {
@@ -119,7 +119,7 @@ router.put("/:id", (req, res) => {
         });
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", async (req, res) => {
     const productId = req.params.id;
     try {
         await Product.destroy({

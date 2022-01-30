@@ -6,7 +6,9 @@ const { Category, Product } = require("../../models");
 // get all categories
 router.get("/", async (req, res) => {
     try {
-        const categories = await Category.findAll();
+        const categories = await Category.findAll({
+            include: [{ model: Product }],
+        });
         res.status(200).json(categories);
     } catch (err) {
         console.log(err.message);
@@ -24,7 +26,7 @@ router.get("/:id", async (req, res) => {
             where: {
                 id: reqId,
             },
-            instance: Product,
+            include: [{ model: Product }],
         });
         category == ""
             ? res
@@ -37,7 +39,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // create a new category
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
     const body = {
         id: req.body.id,
         category_name: req.body.category_name,
@@ -77,7 +79,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // delete a category by its `id` value
-router.delete("/:id", (req, res) => {
+router.delete("/:id", async (req, res) => {
     const categoryId = req.params.id;
     try {
         await Category.destroy({
