@@ -27,7 +27,7 @@ router.get("/:id", async (req, res) => {
             },
             include: [{ model: Product }],
         });
-        tag == ""
+        tag == null
             ? res.status(400).json({ error: `No tag with id ${reqId} found` })
             : res.status(200).json(tag);
     } catch (err) {
