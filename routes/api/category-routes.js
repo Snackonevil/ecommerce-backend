@@ -28,7 +28,7 @@ router.get("/:id", async (req, res) => {
             },
             include: [{ model: Product }],
         });
-        category == ""
+        category == null
             ? res
                   .status(400)
                   .json({ error: `No category with id ${reqId} found` })
