@@ -37,16 +37,57 @@ router.get("/:id", async (req, res) => {
     // be sure to include its associated Product data
 });
 
-router.post("/", (req, res) => {
-    // create a new tag
+router.post("/", async (req, res) => {
+    const body = {
+        tag_name: req.body.tag_name,
+    };
+    if (!req.body.tag_name) {
+        res.status(404).json({
+            message: "request body needs tag_name",
+        });
+    } else {
+        try {
+            const newTag = await Tag.create(body);
+            res.status(201).json(newTag);
+        } catch (err) {
+            res.status(500).json({ message: "Server error" });
+        }
+    }
 });
 
-router.put("/:id", (req, res) => {
-    // update a tag's name by its `id` value
+router.put("/:id", async (req, res) => {
+    const tagId = req.params.id;
+    try {
+        await Tag.update(req.body, {
+            where: {
+                id: tagId,
+            },
+        });
+        const updated = await Tag.findOne({
+            where: {
+                id: tagId,
+            },
+        });
+        res.status(201).json(updated);
+    } catch (err) {
+        res.status(500).json({ message: "Server error" });
+    }
 });
 
-router.delete("/:id", (req, res) => {
-    // delete on tag by its `id` value
+router.delete("/:id", async (req, res) => {
+    const tagId = req.params.id;
+    try {
+        const category = await Tag.destroy({
+            where: {
+                id: tagId,
+            },
+        });
+        res.status(200).json({
+            message: `Category with ID ${tagId} deleted`,
+        });
+    } catch (err) {
+        res.status(500).json({ message: "Server error" });
+    }
 });
 
 module.exports = router;
