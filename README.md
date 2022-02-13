@@ -10,6 +10,7 @@ GitHub: [Snackonevil](github.com/snackonevil)
 ## Description
 
 E-commerce backend that uses MySQL and sequelize
+[WalkThrough Video](https://watch.screencastify.com/v/jG35U3pnKRF7s2AWgh1k)
 
 ---
 
